@@ -25,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable}`}
+        data-new-gr-c-s-check-loaded="14.1243.0"
+        data-gr-ext-installed=""
       >
         {children}
       </body>
