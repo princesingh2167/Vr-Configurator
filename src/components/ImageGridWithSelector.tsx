@@ -25,6 +25,7 @@ interface ImageGridWithSelectorProps {
   onSelect?: (selected: CarouselItem | CarouselItem[]) => void;
   selectedValue?: string | string[];
   multiSelect: boolean;
+  isVideo?: boolean;
 }
 
 const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
@@ -34,6 +35,7 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
   onSelect,
   selectedValue,
   multiSelect,
+  isVideo = false,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   // Removed multiSelected state as it's not used elsewhere
@@ -58,7 +60,9 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
   const handleMultiSelect = (selected: string[]) => {
     if (onSelect) {
       // Find the CarouselItem objects for the selected values
-      const selectedItems = images.filter((img) => selected.includes(img.value));
+      const selectedItems = images.filter((img) =>
+        selected.includes(img.value)
+      );
       onSelect(selectedItems);
     }
   };
@@ -70,7 +74,10 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
           {title && <h2 className="text-2xl font-bold">{title}</h2>}
           <Tooltip>
             <TooltipTrigger asChild>
-              <FontAwesomeIcon icon={faCircleInfo} className="relative top-[0.1em]" />
+              <FontAwesomeIcon
+                icon={faCircleInfo}
+                className="relative top-[0.1em]"
+              />
             </TooltipTrigger>
             <TooltipContent>
               {description && <p>{description}</p>}
@@ -90,20 +97,37 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
                     className={cn(
                       "cursor-pointer rounded-xl overflow-hidden transition-all border",
                       selectedIndex === idx
-                        ? "!border-blue-700 shadow-lg"
+                        ? "!border-blue-700"
                         : "hover:border-gray-400"
                     )}
                   >
                     {img.src ? (
-                      <Image
-                        src={img.src}
-                        alt={img.value}
-                        width={400}
-                        height={300}
-                        className="w-full h-48 object-cover"
-                      />
+                      isVideo ? (
+                        <video
+                          src={typeof img.src === "string" ? img.src : ""}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          style={{
+                            width: "100%",
+                            height: "12rem",
+                            objectFit: "contain",
+                            display: "block",
+                          }}
+                        />
+                      ) : (
+                        <Image
+                          src={img.src}
+                          alt={img.value}
+                          loading="lazy"
+                          width={400}
+                          height={300}
+                          className="w-full h-40 object-cover"
+                        />
+                      )
                     ) : (
-                      <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-500">
+                      <div className="w-full h-40 bg-gray-100 flex items-center justify-center text-gray-500">
                         No Image
                       </div>
                     )}
@@ -137,7 +161,7 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
                   className={cn(
                     "cursor-pointer rounded-xl p-4 border transition-all",
                     selectedIndex === idx
-                      ? "!border-blue-700 shadow-lg"
+                      ? "!border-blue-700"
                       : "hover:border-gray-400"
                   )}
                 >
