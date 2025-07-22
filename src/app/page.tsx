@@ -1,6 +1,5 @@
 
-import VrCal from "@/components/Form/Vrcal";
 
 export default function Home() {
-  return <VrCal />;
+  return <div style={{ textAlign: "center", marginTop: "100px" }}>Hello from Vercel</div>;
 }
