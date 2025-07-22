@@ -1,5 +1,3 @@
-
-
 // const enviroment = "/gifs/enviroment/enviroment.gif";
 const noEnviroment = "/environment/noEnvironment.mp4";
 const actualPlant = "/environment/actualPlant.mp4";
@@ -14,7 +12,10 @@ const ten = "/cube/10M.png";
 const more = "/cube/more.png";
 const visualisationOnly = "/interaction/visualizationOnly.mp4";
 const userNavigation = "/interaction/userNavigation.mp4";
+const handInteraction = "/interaction/handInteraction.mp4";
+const spwan = "/interaction/spawn.mp4";
 const operatorAnim = "/operator/operatorAnim.mp4";
+const partical = "/operator/partical.mp4";
 
 const options = {
   experienceType: {
@@ -39,25 +40,26 @@ const options = {
     title: "Equipment Count",
     options: ["1", "1 to 5", "More than 5"],
     isVideo: true,
-    videos: [fourk, noEnviroment, standardEnvironment ],
+    videos: [fourk, noEnviroment, standardEnvironment],
     description: "Number of equipment units to be included in VR environment",
   },
   partsCount: {
     title: "Approximate total unique parts to be included in experience",
     options: [
-      "Under 20 Parts",
-      "Under 60 Parts",
-      "Under 100 Parts",
-      "Above 100 Parts",
+      "Under 25 Parts",
+      "Under 50 Parts",
+      "Under 75 Parts",
+      "Above 75 Parts",
     ],
     description: "",
   },
   visualisationQuality: {
     title: "Level of Details", // Capitalized "Details"
     options: [
-      "Standard (Plain Color Model)", // Removed extra space in parentheses
-      "Full HD Texture Quality",
-      "4K Texture Quality (Only supported by PC VR)", // Changed "4k" to "4K", improved wording
+      `Low:\n• Level of details less\n• Small texture size\n• Ideal for standalone mobile build (e.g., Quest 3, Quest 3s)`,
+      `Medium:\n• 600K Poly counts\n• Medium texture size\n• Ideal for quality on standalone mobile platforms like (e.g., Quest 3, Quest 3s and Standard PC)`,
+      `High:\n• High Poly geometry\n• Large texture size\n•Heavy- use only on High-end PC Build (e.g., Computer with Nvidia RTX graphic Card + Latest CPU)`,
+      
     ],
     isVideo: true,
     videos: [solid, hd, fourk],
@@ -78,27 +80,29 @@ const options = {
   particalAnimation: {
     title: "Particle Animation (like heat, oil, water, gas flow)", // Typo: "Partical" → "Particle"
     options: ["Yes", "No"],
+    isVideo: true,
+    videos: [partical, ""],
     description: "",
   },
   characterAnimation: {
     title: "Character / Operator Animation", // Added space around slash for clarity
     options: ["Yes", "No"],
     isVideo: true,
-    videos: [operatorAnim,""],
+    videos: [operatorAnim, ""],
     description: "",
   },
   interactionType: {
     title: "Interaction Type",
-    options: ["Visualization Only", "Hand Interaction"], 
-    isVideo:true,// Spelling: "Visualisation" → "Visualization"
-    videos:[visualisationOnly],
+    options: ["Visualization Only", "Hand Interaction"],
+    isVideo: true, // Spelling: "Visualisation" → "Visualization"
+    videos: [visualisationOnly, handInteraction],
     description: "",
   },
   userNavigation: {
     title: "User Navigation in Experience",
     options: ["Fixed and Predefined Spawn Points", "Free Roam"],
-    isVideo:true,// Spelling: "Visualisation" → "Visualization"
-    videos:["",userNavigation],
+    isVideo: true, // Spelling: "Visualisation" → "Visualization"
+    videos: [spwan, userNavigation],
     description: "",
   },
   totalSteps: {
@@ -144,7 +148,7 @@ const options = {
   onsiteTraning: {
     title: "Onsite Training and Deployment",
     options: [
-      "None, Remote support and deployement only",
+      "None, Remote support and deployment only",
       "Up to 3 Days",
       "3 to 5 Days",
       "More than 5 Days",
@@ -169,6 +173,7 @@ const options = {
   },
   hardware: {
     title: "Hardware to be Provided", // Fixed grammar
+    multiSelect: true,
     options: ["None", "Meta Quest 3", "Meta Quest 3s", "CPU + GPU Unit"],
     description: "",
   },
@@ -178,7 +183,7 @@ const options = {
     description: "",
   },
   support: {
-    title: "Post Deployement Support",
+    title: "Post Deployemnt Support",
     options: ["None", "Remote Support", "Onsite Support"], // Capitalization
     description: "",
   },

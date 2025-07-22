@@ -26,6 +26,7 @@ interface ImageGridWithSelectorProps {
   selectedValue?: string | string[];
   multiSelect: boolean;
   isVideo?: boolean;
+  showMediaOnYesOnly?: boolean; // NEW PROP
 }
 
 const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
@@ -36,10 +37,17 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
   selectedValue,
   multiSelect,
   isVideo = false,
+  showMediaOnYesOnly = false,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   // Removed multiSelected state as it's not used elsewhere
   const hasImages = images.some((img) => img.src); // check if any image has a src
+
+  // Determine if this is a Yes/No option
+  const isYesNo =
+    images.length === 2 &&
+    images[0].value === "Yes" &&
+    images[1].value === "No";
 
   useEffect(() => {
     if (multiSelect) {
@@ -86,8 +94,47 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
         </div>
 
         <div className="flex flex-col md:flex-row gap-10 items-start">
-          {/* LEFT: Images Grid */}
-          {hasImages && (
+          {/* LEFT: Images/Video Display for Yes/No options */}
+          {showMediaOnYesOnly &&
+            isYesNo &&
+            images[0].src &&
+            images[0].src !== "" && (
+              <div className="w-full md:w-2/3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Card className="rounded-xl overflow-hidden border">
+                    {isVideo ? (
+                      <video
+                        src={
+                          typeof images[0].src === "string" ? images[0].src : ""
+                        }
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        style={{
+                          width: "100%",
+                          height: "12rem",
+                          objectFit: "contain",
+                          display: "block",
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        src={images[0].src}
+                        alt={images[0].value}
+                        loading="lazy"
+                        width={400}
+                        height={300}
+                        className="w-full h-40 object-cover"
+                      />
+                    )}
+                  </Card>
+                </div>
+              </div>
+            )}
+
+          {/* LEFT: Images Grid (default, not for Yes/No with showMediaOnYesOnly) */}
+          {!showMediaOnYesOnly && hasImages && (
             <div className="w-full md:w-2/3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {images.map((img, idx) => (
@@ -131,8 +178,10 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
                         No Image
                       </div>
                     )}
-                    <div className="p-3 text-sm font-medium text-center">
-                      {img.value}
+                    <div className="p-3 text-sm md:text-lg font-medium ">
+                      {img.value.split("\n").map((line, i) => (
+                        <div key={i}>{line}</div>
+                      ))}
                     </div>
                   </Card>
                 ))}
@@ -144,7 +193,10 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
           <div
             className={cn(
               "space-y-4",
-              hasImages ? "w-full md:w-1/3" : "w-full"
+              (hasImages && !showMediaOnYesOnly) ||
+                (showMediaOnYesOnly && isYesNo)
+                ? "w-full md:w-1/3"
+                : "w-full"
             )}
           >
             {multiSelect ? (
@@ -165,7 +217,11 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
                       : "hover:border-gray-400"
                   )}
                 >
-                  <p className="font-medium text-sm">{img.value}</p>
+                  <p className="font-medium text-sm">
+                    {img.value.includes(":")
+                      ? img.value.split(":")[0].trim()
+                      : img.value}
+                  </p>
                 </Card>
               ))
             )}
