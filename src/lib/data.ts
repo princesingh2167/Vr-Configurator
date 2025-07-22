@@ -1,4 +1,4 @@
-// const enviroment = "/gifs/enviroment/enviroment.gif";
+
 const noEnviroment = "/environment/noEnvironment.mp4";
 const actualPlant = "/environment/actualPlant.mp4";
 const standardEnvironment = "/environment/standardEnvironment.mp4";
