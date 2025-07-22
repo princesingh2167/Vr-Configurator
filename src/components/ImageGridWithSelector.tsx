@@ -178,9 +178,9 @@ const ImageGridWithSelector: React.FC<ImageGridWithSelectorProps> = ({
                         No Image
                       </div>
                     )}
-                    <div className="p-3 text-sm md:text-lg font-medium ">
+                    <div className="p-3 text-sm md:text-lg font-medium text-left space-y-1">
                       {img.value.split("\n").map((line, i) => (
-                        <div key={i}>{line}</div>
+                        <div key={i}>{line.trim()}</div>
                       ))}
                     </div>
                   </Card>
