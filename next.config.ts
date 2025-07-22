@@ -4,13 +4,12 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'jsw.innovatelabs.co.in',
-        pathname: '/assets/**',
+        protocol: "https",
+        hostname: "jsw.innovatelabs.co.in",
+        pathname: "/assets/**",
       },
     ],
   },
-}
-
+};
 
 export default nextConfig;
